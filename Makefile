@@ -36,14 +36,14 @@ config.csv:
 	@echo "To start, you need to copy _config.csv to config.csv and edit it"
 	@false
 	
-$(WRDS_DATA): R/pull_wrds_data.R R/read_config.R config.csv
-	$(RSCRIPT) R/pull_wrds_data.R
+$(WRDS_DATA): code/R/pull_wrds_data.R code/R/read_config.R config.csv
+	$(RSCRIPT) code/R/pull_wrds_data.R
 
-$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) R/prepare_data.R
-	$(RSCRIPT) R/prepare_data.R
+$(GENERATED_DATA): $(WRDS_DATA) $(EXTERNAL_DATA) code/R/prepare_data.R
+	$(RSCRIPT) code/R/prepare_data.R
 
-$(RESULTS):	$(GENERATED_DATA) R/do_analysis.R
-	$(RSCRIPT) R/do_analysis.R
+$(RESULTS):	$(GENERATED_DATA) code/R/do_analysis.R
+	$(RSCRIPT) code/R/do_analysis.R
 
 $(PAPER): doc/paper.Rmd doc/references.bib $(RESULTS) 
 	$(RSCRIPT) -e 'library(rmarkdown); render("doc/paper.Rmd")'
